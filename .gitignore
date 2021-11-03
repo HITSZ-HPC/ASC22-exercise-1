@@ -32,8 +32,5 @@
 *.app
 main
 
-# Correctness check binary
-*.ppm
-
 # VSCode
 .vscode/
