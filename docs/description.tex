@@ -1,0 +1,95 @@
+\documentclass{ctexart}
+\usepackage{algorithm}
+\usepackage{algorithm2e}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{HITSZ ASC22 校内练习题}
+\author{Easton Man}
+\date{November 2021}
+
+\begin{document}
+
+\maketitle
+
+\section{SLIC算法简介}
+超像素算法就是将图像中的像素依据某种相似性进行聚类，形成一个大“像素”，这个大“像素”可以作为其他图像处理算法的基础。在众多的超像素算法中，比较常用的是 SLIC（simple linear iterative clustering），它是 Radhakrishna Achanta 等人于 2010 年提出的一种简单高效的超像素算法，它的计算复杂度为 O(N)，其中 N 为图像像素点个数。
+
+SLIC 算法的基本思想是， 首先将图像从 RGB 颜色空间转换到 CIE-Lab 颜色空间，并把每个像素的（L，a，b）颜色值和（x，y）坐标值组成一个 5 维的特征向量 V[L, a, b, x, y]，然后，根据给定的网格步长 S，初始化聚类中心 Ck=[Lk, ak, bk, xk, yk]T，之后在每个聚类中心 Ck 的邻域（2Sx2S），计算邻域内各像素与该 Ck 点的相似性度量，从而对邻域内的像素点进行聚类，之后迭代更新聚类中心，直至满足收敛条件。
+
+SLIC算法的具体流程如下：
+\begin{algorithm}[H]
+\caption{SLIC superpixel segmentation}
+/∗ Initialization ∗/
+
+Initialize cluster centers Ck = [lk, ak, bk, xk, yk]T by sampling pixels at regular grid steps S.
+
+Move cluster centers to the lowest gradient position in a 3 × 3 neighborhood.
+
+Set label l(i) = −1 for each pixel i. Set distance d(i) = ∞ for each pixel i.
+
+\While {E > threshold}{
+
+/∗ Assignment ∗/
+
+\For {each cluster center Ck} {
+
+    \For {each pixel i in a 2S × 2S region around Ck} {
+
+Compute the distance D between Ck and i.
+
+        \If {D < d(i)}{
+            set d(i) = D
+            
+            set l(i) = k
+        }
+    }
+}
+
+/∗ Update ∗/
+
+Compute new cluster centers.
+
+Compute residual error E.
+}
+
+\end{algorithm}
+
+
+
+\section{题目说明}
+\begin{enumerate}
+    \item 源代码包括以下部分：
+    \begin{itemize}
+        \item main.cpp：入口和计时代码
+        \item src/：SLIC源代码
+        \item include/：SLIC头文件
+        \item data/：数据文件
+        \item Makefile：GNU Makefile
+    \end{itemize}
+    \item 程序运行方法：
+    \begin{enumerate}
+        \item 编译：make
+        \item 运行：make run
+    \end{enumerate}
+    \item 评价指标：所有测试用例加速比的平均值
+    \item 修改范围：
+    \begin{itemize}
+        \item 允许修改src/
+        \item 允许修改include/
+        \item 允许新增文件
+        \item 允许修改Makefile（包括编译选项和编译器）
+        \item 禁止修改main.cpp或任何计时代码
+        \item 禁止修改data/中的测试样例
+    \end{itemize}
+    \item 不允许修改算法的计算量，优化的算法必须和原有算法等价，但可以修改计算顺序等
+    \item 正确性判断以基准验证文件check.ppm为准，差异点数为0则通过，其余不通过
+    \item 可以针对特定的数据进行优化，但必须保证所有情况下的正确性，后续可能加入更多不同的测试数据
+\end{enumerate}
+
+\section{参考文献}
+
+\href{https://core.ac.uk/download/pdf/147983593.pdf}{SLIC Superpixels Compared to State-of-the-art
+Superpixel Methods}
+
+\end{document}
