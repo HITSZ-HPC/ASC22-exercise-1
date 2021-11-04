@@ -1,13 +1,6 @@
 # ASC22 Exercise 1
 
-> See docs/
 
-## Clone
+## Description
+See [Description.pdf](https://github.com/HITSZ-HPC/ASC22-exercise-1/blob/main/docs/description.pdf)
 
-Git LFS is needed
-
-```
-sudo apt install git-lfs
-
-// Then git clone <url>
-```
